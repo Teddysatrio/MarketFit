@@ -9,7 +9,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                   title = "Best Market Fit Offer",
                   sidebarPanel(
                     tags$h3("Input Detail New Package:"),
-                    textInput("name", label = h3("Package Name :"), ""),
+                    textInput("package_name_detail", label = h3("Package Name :"), ""),
                     radioButtons("status", label = h3("Status"),
                                  choices = list("Active", "Not Active" ), 
                     ),
@@ -20,14 +20,14 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     radioButtons("pas", label = h3("Package Activity Status"),
                                  choices = list("Yes" , "No"), 
                     ),
-                    numericInput("price", label = h3("Package Price"), value = 0),
+                    numericInput("package_price", label = h3("Package Price"), value = 0),
                     radioButtons("pt1", label = h3("Package Type 1 (with per day data limit till validity)"),
                                  choices = list("Yes" , "No" ), 
                     ),
                     radioButtons("pt2", label = h3("Package Type 2 (package with unlimited usage data per day)"),
                                  choices = list("Yes" , "No" ), 
                     ),
-                    numericInput("validity", label = h3("Package Validity"), value = 0),
+                    numericInput("package_validity", label = h3("Package Validity"), value = 0),
                     radioButtons("vas", label = h3("VAS (Value Added Service)"),
                                  choices = list("Yes" , "No" ), 
                     ),
@@ -38,11 +38,11 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                                 choices = list("BB" , "CLM" , "Corporate" , "International" , "My Special Plan", "MySmartVALUE",
                                                "Paket Video Harian", "PUAS Plan", "QOS", "Service Plan", "Simas Plan", "Switch", "VAS", "Voice"), 
                     ),
-                    selectInput("cb", label = h3("Category Business"), 
+                    selectInput("category_business", label = h3("Category Business"), 
                                 choices = list("Validity + quota", "Roaming" , "VAS" , "Unlimited" , "Voice", "Sms",
                                                "Bonus/promotion"), 
                     ),
-                    selectInput("sop", label = h3("SOP (Scheme of Package)"), 
+                    selectInput("SOP", label = h3("SOP (Scheme of Package)"), 
                                 choices = list("1" , "2" , "3" , "4" , "5", "6")
                     ),
                     submitButton("Check"),
@@ -62,22 +62,25 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                   
                 ) # navbarPage
 ) # fluidPage
-
+#myFunction <- function(input, output){
+ # output$result <- renderText({
+    
+  #})
+#}
 
 # Define server function  
 server <- function(input, output) {
   
   Data = reactive({
     
-    df <- data.frame("Package Name"=input$name, "Status"=input$status, "Package Category"=input$pc, "Launch Date"=input$date, "Package Activity Status"=input$pas, "Package Price"=input$price,
-                     "Package Type 1"=input$pt1, "Package Type 2"=input$pt2, "Package Validity"=input$validity, "VAS"=input$vas, "Type of VAS"=input$tvas, "Package Business Category"=input$pbc,
-                     "Category Business"=input$cb, "SOP"=input$sop)
+    df <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, "Launch Date"=input$date, "Package Activity Status"=input$pas, "Package Price"=input$package_price,
+                     "Package Type 1"=input$pt1, "Package Type 2"=input$pt2, "Package Validity"=input$package_validity, "VAS"=input$vas, "Type of VAS"=input$tvas, "Package Business Category"=input$pbc,
+                     "Category Business"=input$category_business, "SOP"=input$SOP)
     return(list(df=df))
     
   })
   
   output$table <- renderTable({
-    
     print(Data()$df)
   }
   )
@@ -86,8 +89,6 @@ server <- function(input, output) {
 
 # Create Shiny object
 
-#coba di liat
-#udah diliat
 shinyApp(ui = ui, server = server)
 
 
