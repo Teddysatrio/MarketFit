@@ -86,6 +86,7 @@ server <- function(input, output) {
 
 # Create Shiny object
 
+#coba di liat
 shinyApp(ui = ui, server = server)
 
 
