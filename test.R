@@ -1,7 +1,7 @@
 library(shiny)
 library(shinythemes)
 library(tidyverse)
-OC <- read.csv("OC.csv", header = T, sep = ";")
+#OC <- read.csv("OC.csv", header = T, sep = ";")
 #head(OC)
 # Define UI
 ui <- fluidPage(theme = shinytheme("cerulean"),
@@ -72,15 +72,15 @@ server <- function(input, output) {
   SF = reactive({
     
     data <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, "Launch Date"=input$date, "Package Activity Status"=input$pas, "Package Price"=input$package_price,
-                     "Package Type 1"=input$pt1, "Package Type 2"=input$pt2, "Package Validity"=input$package_validity, "VAS"=input$vas, "Type of VAS"=input$tvas, "Package Business Category"=input$pbc,
-                     "Category Business"=input$category_business, "SOP"=input$SOP)
+                       "Package Type 1"=input$pt1, "Package Type 2"=input$pt2, "Package Validity"=input$package_validity, "VAS"=input$vas, "Type of VAS"=input$tvas, "Package Business Category"=input$pbc,
+                       "Category Business"=input$category_business, "SOP"=input$SOP)
     return(list(data=data))
     
   })
   rv <- reactiveValues(
     case = NULL
   )
- 
+  
   rv$case <- eventReactive(input$Check,{
     OC_1 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_2 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
