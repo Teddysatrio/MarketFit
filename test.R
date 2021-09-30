@@ -53,7 +53,9 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                   mainPanel(
                     h1("Result"),
                     
-                    h4("Output 1"),
+                    h4("New Package Detail"),
+                    uiOutput('result'),
+                    h4("Competitor Package"),
                     uiOutput('table')
                     
                   ) # mainPanel
@@ -69,6 +71,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
 #}
 
 # Define server function  
+
+
 server <- function(input, output) {
   
   Data = reactive({
@@ -80,10 +84,142 @@ server <- function(input, output) {
     
   })
   
-  output$table <- renderTable({
+  output$result <- renderTable({
     print(Data()$df)
+  })
+  
+  
+  datasetInput <- reactive({
+    OC <- read.csv(file = 'OC.csv', header = T, sep=";")
+    OC_1 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_2 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_3 <- OC %>% filter(Package.Price <=20000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_4 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_5 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_6 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_49 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_7 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_8 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_9 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_10 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_11 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_12 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_50 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_13 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_14 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_15 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_16 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_17 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_18 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_51 <- OC %>% filter(Package.Price >50000 & Package.Price <=75000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_19 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_20 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_21 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_22 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_23 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_24 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_52 <- OC %>% filter(Package.Price >75000 & Package.Price <=100000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_25 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_26 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_27 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_28 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_29 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_30 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_53 <- OC %>% filter(Package.Price >100000 & Package.Price <=150000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_31 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_32 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_33 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_34 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_35 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_36 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_54 <- OC %>% filter(Package.Price >150000 & Package.Price <=200000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_37 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_38 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_39 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_40 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_41 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_42 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_55 <- OC %>% filter(Package.Price >200000 & Package.Price <=400000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    
+    OC_43 <- OC %>% filter(Package.Price >400000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_44 <- OC %>% filter(Package.Price >400000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_45 <- OC %>% filter(Package.Price >400000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_46 <- OC %>% filter(Package.Price >400000 & Category.Business =="Unlimited")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_47 <- OC %>% filter(Package.Price >400000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_48 <- OC %>% filter(Package.Price >400000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    OC_56 <- OC %>% filter(Package.Price >400000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
+    return(list(OC=OC, OC_1=OC_1, 
+                OC_2=OC_2, 
+                OC_3=OC_3, 
+                OC_4=OC_4, 
+                OC_5=OC_5, 
+                OC_6=OC_6,
+                OC_7=OC_7,
+                OC_8=OC_8,
+                OC_9=OC_9,
+                OC_10=OC_10,
+                OC_11=OC_11,
+                OC_12=OC_12,
+                OC_13=OC_13,
+                OC_14=OC_14,
+                OC_15=OC_15,
+                OC_16=OC_16,
+                OC_17=OC_17,
+                OC_18=OC_18,
+                OC_19=OC_19,
+                OC_20=OC_20,
+                OC_21=OC_21,
+                OC_22=OC_22,
+                OC_23=OC_23,
+                OC_24=OC_24,
+                OC_25=OC_25,
+                OC_26=OC_26,
+                OC_27=OC_27,
+                OC_28=OC_28,
+                OC_29=OC_29,
+                OC_30=OC_30,
+                OC_31=OC_31,
+                OC_32=OC_32,
+                OC_33=OC_33,
+                OC_34=OC_34,
+                OC_35=OC_35,
+                OC_36=OC_36,
+                OC_37=OC_37,
+                OC_38=OC_38,
+                OC_39=OC_39,
+                OC_40=OC_40,
+                OC_41=OC_41,
+                OC_42=OC_42,
+                OC_43=OC_43,
+                OC_44=OC_44,
+                OC_45=OC_45,
+                OC_46=OC_46,
+                OC_47=OC_47,
+                OC_48=OC_48,
+                OC_49=OC_49,
+                OC_50=OC_50,
+                OC_51=OC_51,
+                OC_52=OC_52,
+                OC_53=OC_53,
+                OC_54=OC_54,
+                OC_55=OC_55,
+                OC_56=OC_56
+    ))
+  })
+  
+  
+  output$table <- renderTable({
+    print(datasetInput()$OC_50)
   }
   )
+  
+  
 } # server
 
 
