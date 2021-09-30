@@ -1,5 +1,6 @@
 library(shiny)
 library(shinythemes)
+library(tidyverse)
 
 
 # Define UI
@@ -85,7 +86,7 @@ server <- function(input, output) {
   })
   
   output$result <- renderTable({
-    print(Data()$df)
+    Data()$df
   })
   
   
@@ -213,11 +214,12 @@ server <- function(input, output) {
     ))
   })
   
-  
   output$table <- renderTable({
     print(datasetInput()$OC_50)
   }
   )
+  
+  
   
   
 } # server
