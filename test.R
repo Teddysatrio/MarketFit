@@ -92,7 +92,7 @@ server <- function(input, output) {
     OC_5 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Voice")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_6 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Sms")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_49 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Bonus/promotion")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
-    
+
     OC_7 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_8 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_9 <- OC %>% filter(Package.Price >20000 & Package.Price <=50000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
