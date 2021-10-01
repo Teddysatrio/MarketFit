@@ -61,7 +61,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     h4("Comparison"),
                     textOutput('datafungsi'),
                     
-                  
+                    
                     
                   ) # mainPanel
                   
@@ -70,9 +70,9 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                 ) # navbarPage
 ) # fluidPage
 #myFunction <- function(input, output){
- # output$result <- renderText({
-    
-  #})
+# output$result <- renderText({
+
+#})
 #}
 
 # Define server function  
