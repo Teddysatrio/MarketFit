@@ -387,9 +387,9 @@ server <- function(input, output) {
         }
       }
       #print()
-      if(total_poin / length(b[,1])>= 0.5){
+      if(total_poin / length(datamatch()$b[,1])>= 0.5){
         return("Fit to the market")
-      }else if(total_poin/length(b[,1])<0.5){
+      }else if(total_poin/length(datamatch()$b[,1])<0.5){
         return("Not fit to the market")
       }
     }
