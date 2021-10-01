@@ -57,7 +57,11 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     h4("New Package Detail"),
                     uiOutput('result'),
                     h4("Competitor Package"),
-                    uiOutput('table')
+                    uiOutput('table'),
+                    h4("Comparison"),
+                    textOutput('datafungsi'),
+                    
+                  
                     
                   ) # mainPanel
                   
@@ -78,7 +82,7 @@ server <- function(input, output) {
   
   Data = reactive({
     
-    df <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, "Launch Date"=input$date, "Package Activity Status"=input$pas, "Package Price"=input$package_price,
+    df <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, "Launch Date"=as.character(input$date), "Package Activity Status"=input$pas, "Package Price"=input$package_price,
                      "Package Type 1"=input$pt1, "Package Type 2"=input$pt2, "Package Validity"=input$package_validity, "VAS"=input$vas, "Type of VAS"=input$tvas, "Package Business Category"=input$pbc,
                      "Category Business"=input$category_business, "SOP"=input$SOP)
     return(list(df=df))
@@ -91,7 +95,7 @@ server <- function(input, output) {
   
   
   datasetInput <- reactive({
-    OC <- read.csv(file = 'OC.csv', header = T, sep=";")
+    #OC <- read.csv(file = 'OC.csv', header = T, sep=";")
     OC_1 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Validity + quota")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_2 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Roaming")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
     OC_3 <- OC %>% filter(Package.Price <=20000 & Category.Business =="VAS")%>% select(c(Package.Price, Package.Validity, Value.added.Service.VAS.., SOP))
@@ -212,12 +216,145 @@ server <- function(input, output) {
                 OC_55=OC_55,
                 OC_56=OC_56
     ))
+    
+    
+  })
+  
+  datamatch <- reactive({
+    if(input$package_price == 0){
+      b = print("no data")
+    }
+    else if(input$package_price <=20000 & input$category_business == "Validity + quota"){
+      b = datasetInput()$OC_1
+    }else if(input$package_price <=20000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_2
+    }else if(input$package_price <=20000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_3
+    }else if(input$package_price <=20000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_4
+    }else if(input$package_price <=20000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_5
+    }else if(input$package_price <=20000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_6
+    }else if(input$package_price <=20000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_49
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_7
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_8
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_9
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_10
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_11
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_12
+    }else if(input$package_price >20000 & input$package_price <=50000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_50
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_13
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_14
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_15
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_16
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_17
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_18
+    }else if(input$package_price >50000 & input$package_price <=75000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_51
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_19
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_20
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_21
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_22
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_23
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_24
+    }else if(input$package_price >75000 & input$package_price <=100000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_52
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_25
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_26
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_27
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_28
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_29
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_30
+    }else if(input$package_price >100000 & input$package_price <=150000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_53
+    }else if(input$package_price >150000 & input$package_price <=200000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_31
+    }else if(input$package_price >150000 & input$package_price <=200000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_32
+    }else if(input$package_price >150000 & input$package_price <=200000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_33
+    }else if(inpu$package_price >150000 & input$package_price <=200000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_34
+    }else if(input$package_price >150000 & input$package_price <=200000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_35
+    }else if(input$package_price >150000 & input$package_price <=200000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_36
+    }else if(input$package_price >150000 & input$package_price <=200000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_54
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_37
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_38
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_39
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_40
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_41
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_42
+    }else if(input$package_price >200000 & input$package_price <=400000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_55
+    }else if(input$package_price >400000 & input$category_business =="Validity + quota"){
+      b = datasetInput()$OC_43
+    }else if(input$package_price >400000 & input$category_business =="Roaming"){
+      b = datasetInput()$OC_44
+    }else if(input$package_price >400000 & input$category_business =="VAS"){
+      b = datasetInput()$OC_45
+    }else if(input$package_price >400000 & input$category_business =="Unlimited"){
+      b = datasetInput()$OC_46
+    }else if(input$package_price >400000 & input$category_business =="Voice"){
+      b = datasetInput()$OC_47
+    }else if(input$package_price >400000 & input$category_business =="Sms"){
+      b = datasetInput()$OC_48
+    }else if(input$package_price >400000 & input$category_business =="Bonus/promotion"){
+      b = datasetInput()$OC_56
+    }
+    return(list(b=b))
   })
   
   output$table <- renderTable({
-    print(datasetInput()$OC_50)
+    print(datamatch()$b)
   }
   )
+  
+  datafungsi <- reactive({
+    if(#dim(b)[1]==0 #using dimension
+      length(datamatch()$b[,1])==0){#using length
+      print("There are No Similiar Competitor Package")
+    }
+  })
+  
+  output$datafungsi <- renderText({
+    print(datafungsi)
+  })
   
   
   
