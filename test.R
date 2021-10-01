@@ -349,11 +349,54 @@ server <- function(input, output) {
     if(#dim(b)[1]==0 #using dimension
       length(datamatch()$b[,1])==0){#using length
       print("There are No Similiar Competitor Package")
+    }else{
+      total_poin = 0;
+      for(i in 1: length(datamatch()$b[,1])){
+        temp_poin = 0
+        #print(b[i,]$Package.Price)
+        #print(length(b$Package.Price))
+        if(input$package_price <= datamatch()$b[i,]$Package.Price){
+          temp_poin = temp_poin+1
+        }
+        else{
+          temp_poin = temp_poin+0
+        }
+        if(input$package_validity >= datamatch()$b[i,]$Package.Validity){
+          temp_poin = temp_poin+1
+        }
+        if(input$vas=="Yes"){
+          temp_poin = temp_poin +1
+        }else if(input$vas=="No" & datamatch()$b[i,]$Value.added.Service.VAS..=="No"){
+          temp_poin = temp_poin +1
+        }
+        if(input$SOP == datamatch()$b[i,]$SOP){
+          temp_poin = temp_poin +1
+        }else if(input$SOP == 6){
+          temp_poin = temp_poin +1
+        }else if(input$SOP == 3 & datamatch()$b[i,]$SOP ==2){
+          temp_poin = temp_poin +1
+        }else if(input$SOP == 2 & datamatch()$b[i,]$SOP ==1){
+          temp_poin = temp_poin +1
+        }else if(input$SOP == 3 & datamatch()$b[i,]$SOP ==1){
+          temp_poin = temp_poin +1
+        }else if(input$SOP != datamatch()$b[i,]$SOP & datamatch()$b[i,]$SOP !=6){
+          temp_poin = temp_poin +1
+        }
+        if(temp_poin > 2){
+          total_poin = total_poin +1
+        }
+      }
+      #print()
+      if(total_poin / length(b[,1])>= 0.5){
+        return("Fit to the market")
+      }else if(total_poin/length(b[,1])<0.5){
+        return("Not fit to the market")
+      }
     }
   })
   
   output$datafungsi <- renderText({
-    print(datafungsi)
+    print(datafungsi())
   })
   
   
@@ -365,10 +408,3 @@ server <- function(input, output) {
 # Create Shiny object
 
 shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
