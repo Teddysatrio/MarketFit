@@ -64,6 +64,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     strong(uiOutput('datafungsi')),
                     h3("Competitor Package"),
                     uiOutput('table'),
+                    h3("Smartfren Package"),
+                    uiOutput('datafungsi_SF'),
                     
                     
                   ) # mainPanel
@@ -97,6 +99,25 @@ server <- function(input, output) {
     Data()$df
   })
   
+  #datamatch_SF <- reactive({
+    #SF <- read.csv(file = 'SF.csv', header = T, sep=";")
+    #return(list(SF = SF))
+  #})
+  
+  datafungsi_SF <- reactive({
+    #SF <- read.csv(file = 'SF.csv', header = T, sep=";")
+    #d<-c()
+    for(i in 1: length(SF[,1])){
+      if(input$package_price == SF[i,]$package_price & input$package_validity == SF[i,]$package_validity & input$vas == SF[i,]$vas & input$SOP == SF[i,]$SOP){
+        paste("This package already exist")
+      }else{
+        paste("New Package for Smartfren")
+      }
+    }
+  })
+  output$datafungsi_SF <- renderText({
+    print(datafungsi_SF())
+  })
   
   datasetInput <- reactive({
     #OC <- read.csv(file = 'OC.csv', header = T, sep=";")
