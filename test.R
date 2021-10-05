@@ -20,7 +20,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     selectInput("pc", label = h3("Package Category"), 
                                 choices = list("Prepaid" , "Postpaid", "Both"), 
                     ),
-                    dateInput("date", label = h3("Launch Date")),
+                    #dateInput("date", label = h3("Launch Date")),
                     radioButtons("pas", label = h3("Package Activity Status"),
                                  choices = list("Yes" , "No"), 
                     ),
@@ -55,15 +55,15 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     
                   ), # sidebarPanel
                   mainPanel(
-                    strong(h1("Result", style="font-style:bold; color:black ")),
+                    strong(h1("Market Fit Testing", style="font-style:bold; color:black ")),
                     
-                    h3("Smartfren Package Detail", ),
+                    h3("Smartfren New Package", ),
                     uiOutput('result'),
+                    h3("Comparison"),
+                    h4("Assumption: Package Will Fit to the Market, if > 50% (depend on your demand)"),
+                    strong(uiOutput('datafungsi')),
                     h3("Competitor Package"),
                     uiOutput('table'),
-                    h3("Comparison"),
-                    strong(uiOutput('datafungsi')),
-                    
                     
                     
                   ) # mainPanel
@@ -85,7 +85,8 @@ server <- function(input, output) {
   
   Data = reactive({
     
-    df <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, "Launch Date"=as.character(input$date), "Package Activity Status"=input$pas, "Package Price"=input$package_price,
+    df <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, #"Launch Date"=as.character(input$date), 
+                     "Package Activity Status"=input$pas, "Package Price"=input$package_price,
                      "Package Type 1"=input$pt1, "Package Type 2"=input$pt2, "Package Validity"=input$package_validity, "VAS"=input$vas, "Type of VAS"=input$tvas, "Package Business Category"=input$pbc,
                      "Category Business"=input$category_business, "SOP"=input$SOP)
     return(list(df=df))
@@ -345,8 +346,7 @@ server <- function(input, output) {
   
   output$table <- renderTable({
     print(datamatch()$b)
-  }
-  )
+  })
   
   datafungsi <- reactive({
     if(#dim(b)[1]==0 #using dimension
