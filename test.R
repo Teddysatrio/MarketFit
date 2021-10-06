@@ -2,6 +2,8 @@ library(shiny)
 library(shinythemes)
 library(tidyverse)
 library(cat)
+library(plotly)
+library(shinydashboard)
 
 
 # Define UI
@@ -60,12 +62,13 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                     h3("Smartfren New Package", ),
                     uiOutput('result'),
                     h3("Comparison"),
-                    h4("Assumption: Package Will Fit to the Market, if > 50% (depend on your demand)"),
+                    
                     strong(uiOutput('datafungsi')),
                     h3("Competitor Package"),
                     uiOutput('table'),
+                    
                     h3("Smartfren Package"),
-                    uiOutput('datafungsi_SF'),
+                    uiOutput('datafung_SF'),
                     
                     
                   ) # mainPanel
@@ -99,23 +102,21 @@ server <- function(input, output) {
     Data()$df
   })
   
-  #datamatch_SF <- reactive({
-    #SF <- read.csv(file = 'SF.csv', header = T, sep=";")
-    #return(list(SF = SF))
-  #})
+  datamatch_SF <- reactive({
+    #SF <- read.csv(file = 'SF-package.csv', header = T, sep=";")
+    return(list(SF = SF))
+  })
   
   datafungsi_SF <- reactive({
-    #SF <- read.csv(file = 'SF.csv', header = T, sep=";")
-    #d<-c()
-    for(i in 1: length(SF[,1])){
-      if(input$package_price == SF[i,]$package_price & input$package_validity == SF[i,]$package_validity & input$vas == SF[i,]$vas & input$SOP == SF[i,]$SOP){
-        paste("This package already exist")
+    for(i in 1: length(datamatch_SF()$SF[,1])){
+      if(input$package_price == datamatch_SF()$SF[i,]$package_price & input$package_validity == datamatch_SF()$SF[i,]$package_validity & input$vas == datamatch_SF()$SF[i,]$vas & input$SOP == datamatch_SF()$SF[i,]$SOP){
+        print("This package already exist")
       }else{
-        paste("New Package for Smartfren")
+        print("New Package for Smartfren")
       }
     }
   })
-  output$datafungsi_SF <- renderText({
+  output$datafung_SF <- renderText({
     print(datafungsi_SF())
   })
   
@@ -417,10 +418,10 @@ server <- function(input, output) {
       
       prcnt <- (total_poin / length(datamatch()$b[,1]))*100
       if(total_poin / length(datamatch()$b[,1])>= 0.5){
-        HTML(paste0(tp, br(), br(),"Fit to the market ",sprintf(prcnt, fmt = '%#.2f'),"%"))
+        HTML(paste0(tp, br(), br(),"Fit to the market ",sprintf(prcnt, fmt = '%#.2f'),"%",br(), br(), "Estimated number of customer : Not Available"))
         #print(total_poin / length(datamatch()$b[,1])," %")
       }else if(total_poin/length(datamatch()$b[,1])<0.5){
-        HTML(paste0(tp, br(), br(),"Not Fit to the market ",sprintf(prcnt, fmt = '%#.2f'),"%"))
+        HTML(paste0(tp, br(), br(),"Not Fit to the market ",sprintf(prcnt, fmt = '%#.2f'),"%",br(), br(), "Estimated number of customer : Not Available"))
         #print(total_poin / length(datamatch()$b[,1])," %")
       }
       
