@@ -6,88 +6,76 @@ library(plotly)
 library(shinydashboard)
 
 
-# Define UI
-ui <- fluidPage(theme = shinytheme("cerulean"),
-                navbarPage(
-                  theme = "cerulean",  
-                  title = "Best Market Fit Offer",
-                  position = c("fixed-top"),
-                  br(), br(), br(),
-                  sidebarPanel(
-                    tags$h3("Input Detail New Package:", style="font-size:30px; font-style:bold; color:black"),
-                    textInput("package_name_detail", label = h3("Package Name :"), ""),
-                    radioButtons("status", label = h3("Status"),
-                                 choices = list("Active", "Not Active" ), 
-                    ),
-                    selectInput("pc", label = h3("Package Category"), 
-                                choices = list("Prepaid" , "Postpaid", "Both"), 
-                    ),
-                    #dateInput("date", label = h3("Launch Date")),
-                    radioButtons("pas", label = h3("Package Activity Status"),
-                                 choices = list("Yes" , "No"), 
-                    ),
-                    numericInput("package_price", label = h3("Package Price"), value = 0),
-                    radioButtons("pt1", label = h3("Package Type 1 (with per day data limit till validity)"),
-                                 choices = list("Yes" , "No" ), 
-                    ),
-                    radioButtons("pt2", label = h3("Package Type 2 (package with unlimited usage data per day)"),
-                                 choices = list("Yes" , "No" ), 
-                    ),
-                    numericInput("package_validity", label = h3("Package Validity"), value = 0),
-                    radioButtons("vas", label = h3("VAS (Value Added Service)"),
-                                 choices = list("Yes" , "No" ), 
-                    ),
-                    radioButtons("tvas", label = h3("Type of VAS"),
-                                 choices = list("VAS" , "Yes", "No"), 
-                    ),
-                    selectInput("pbc", label = h3("Package Business Category"), 
-                                choices = list("BB" , "CLM" , "Corporate" , "International" , "My Special Plan", "MySmartVALUE",
-                                               "Paket Video Harian", "PUAS Plan", "QOS", "Service Plan", "Simas Plan", "Switch", "VAS", "Voice"), 
-                    ),
-                    selectInput("category_business", label = h3("Category Business"), 
-                                choices = list("Validity + quota", "Roaming" , "VAS" , "Unlimited" , "Voice", "Sms",
-                                               "Bonus/promotion"), 
-                    ),
-                    selectInput("SOP", label = h3("SOP (Scheme of Package)"), 
-                                choices = list("1" , "2" , "3" , "4" , "5", "6")
-                    ),
-                    submitButton("Check"),
-                    
-                    
-                    
-                  ), # sidebarPanel
-                  mainPanel(
-                    strong(h1("Market Fit Testing", style="font-style:bold; color:black ")),
-                    
-                    h3("Smartfren New Package", ),
-                    uiOutput('result'),
-                    h3("Comparison"),
-                    
-                    strong(uiOutput('datafungsi')),
-                    h3("Competitor Package"),
-                    uiOutput('table'),
-                    
-                    h3("Smartfren Package"),
-                    uiOutput('datafung_SF'),
-                    
-                    
-                  ) # mainPanel
-                  
-                  
-                  
-                ) # navbarPage
-) # fluidPage
-#myFunction <- function(input, output){
-# output$result <- renderText({
-
-#})
-#}
-
-# Define server function  
-
+ui <- dashboardPage(
+  dashboardHeader(title = "Best Market Fit Offer"),
+  dashboardSidebar(disable = TRUE),
+  dashboardBody(
+    
+    div(style = 'overflow-x: scroll', sidebarPanel(width = 3,
+    tags$h3("Input Detail New Package:", style="font-size:30px; font-style:bold; color:black"),
+    textInput("package_name_detail", label = h3("Package Name :", style="font-size:17px"), ""),
+    radioButtons("status", label = h2("Status",  style="font-size:17px"),
+                 choices = list("Active", "Not Active" ), 
+    ),
+    selectInput("pc", label = h2("Package Category",  style="font-size:17px"), 
+                choices = list("Prepaid" , "Postpaid", "Both"), 
+    ),
+    #dateInput("date", label = h3("Launch Date")),
+    radioButtons("pas", label = h2("Package Activity Status",  style="font-size:17px"),
+                 choices = list("Yes" , "No"), 
+    ),
+    numericInput("package_price", label = h2("Package Price",  style="font-size:17px"), value = 0),
+    radioButtons("pt1", label = h2("Package Type 1 (with per day data limit till validity)",  style="font-size:17px"),
+                 choices = list("Yes" , "No" ), 
+    ),
+    radioButtons("pt2", label = h2("Package Type 2 (package with unlimited usage data per day)",  style="font-size:17px"),
+                 choices = list("Yes" , "No" ), 
+    ),
+    numericInput("package_validity", label = h2("Package Validity",  style="font-size:17px"), value = 0),
+    radioButtons("vas", label = h2("VAS (Value Added Service)",  style="font-size:17px"),
+                 choices = list("Yes" , "No" ), 
+    ),
+    radioButtons("tvas", label = h2("Type of VAS",  style="font-size:17px"),
+                 choices = list("VAS" , "Yes", "No"), 
+    ),
+    selectInput("pbc", label = h2("Package Business Category",  style="font-size:17px"), 
+                choices = list("BB" , "CLM" , "Corporate" , "International" , "My Special Plan", "MySmartVALUE",
+                               "Paket Video Harian", "PUAS Plan", "QOS", "Service Plan", "Simas Plan", "Switch", "VAS", "Voice"), 
+    ),
+    selectInput("category_business", label = h2("Category Business",  style="font-size:17px"), 
+                choices = list("Validity + quota", "Roaming" , "VAS" , "Unlimited" , "Voice", "Sms",
+                               "Bonus/promotion"), 
+    ),
+    selectInput("SOP", label = h2("SOP (Scheme of Package)",  style="font-size:17px"), 
+                choices = list("1" , "2" , "3" , "4" , "5", "6")
+    ),
+    submitButton("Check"),
+    
+  ),mainPanel(
+    
+    strong(h1("Market Fit Testing", style="font-style:bold; color:black ")),
+    
+    fluidRow(
+      box(h3("Smartfren New Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('result')))
+      ),
+    fluidRow(
+    box(h3("Comparison"), br(), status = "primary", width = 15 ,
+        (strong(uiOutput('datafungsi', style="font-size:17px"))
+        ))),
+    
+    fluidRow(
+      box(h3("Smartfren Package"),br(), status = "primary", width = 15 ,
+          uiOutput('datafung_SF', style="font-size:17px"))
+    ),
+    
+    fluidRow(
+      box(h3("Competitor Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('table')))
+    )
+    
+  )))
+)
 
 server <- function(input, output) {
-  
   Data = reactive({
     
     df <- data.frame("Package Name"=input$package_name_detail, "Status"=input$status, "Package Category"=input$pc, #"Launch Date"=as.character(input$date), 
@@ -98,8 +86,8 @@ server <- function(input, output) {
     
   })
   
-  output$result <- renderTable({
-    Data()$df
+  output$result <- DT::renderDataTable({
+    DT::datatable(Data()$df)
   })
   
   datamatch_SF <- reactive({
@@ -376,8 +364,8 @@ server <- function(input, output) {
     return(list(b=b))
   })
   
-  output$table <- renderTable({
-    print(datamatch()$b)
+  output$table <- DT::renderDataTable({
+    DT::datatable(datamatch()$b)
   })
   
   datafungsi <- reactive({
@@ -441,13 +429,6 @@ server <- function(input, output) {
   output$datafungsi <- renderText({
     print(datafungsi())
   })
-  
-  
-  
-  
-} # server
+}
 
-
-# Create Shiny object
-
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
