@@ -11,42 +11,42 @@ ui <- dashboardPage(
   dashboardSidebar(disable = TRUE),
   dashboardBody(
     
-    div(style = 'overflow-x: scroll', sidebarPanel(width = 3,
+    div(style = 'overflow-x: scroll', sidebarPanel(width = 4,
     tags$h3("Input Detail New Package:", style="font-size:30px; font-style:bold; color:black"),
-    textInput("package_name_detail", label = h3("Package Name :", style="font-size:17px"), ""),
-    radioButtons("status", label = h2("Status",  style="font-size:17px"),
-                 choices = list("Active", "Not Active" ), 
-    ),
-    selectInput("pc", label = h2("Package Category",  style="font-size:17px"), 
+    textInput("package_name_detail", label = h3("Package Name :", style="font-size:25px"), ""),
+    div(style="font-size:17px", radioButtons("status", label = h2("Status",  style="font-size:25px"),
+                 choices = list("Active", "Not Active" ) 
+    )),
+    selectInput("pc", label = h2("Package Category",  style="font-size:25px"), 
                 choices = list("Prepaid" , "Postpaid", "Both"), 
     ),
     #dateInput("date", label = h3("Launch Date")),
-    radioButtons("pas", label = h2("Package Activity Status",  style="font-size:17px"),
+    div(style="font-size:17px",radioButtons("pas", label = h2("Package Activity Status",  style="font-size:25px"),
                  choices = list("Yes" , "No"), 
-    ),
-    numericInput("package_price", label = h2("Package Price",  style="font-size:17px"), value = 0),
-    radioButtons("pt1", label = h2("Package Type 1 (with per day data limit till validity)",  style="font-size:17px"),
+    )),
+    numericInput("package_price", label = h2("Package Price",  style="font-size:25px"), value = 0),
+    div(style="font-size:17px",radioButtons("pt1", label = h2("Package Type 1 (with per day data limit till validity)",  style="font-size:25px"),
                  choices = list("Yes" , "No" ), 
-    ),
-    radioButtons("pt2", label = h2("Package Type 2 (package with unlimited usage data per day)",  style="font-size:17px"),
+    )),
+    div(style="font-size:17px",radioButtons("pt2", label = h2("Package Type 2 (package with unlimited usage data per day)",  style="font-size:25px"),
                  choices = list("Yes" , "No" ), 
-    ),
-    numericInput("package_validity", label = h2("Package Validity",  style="font-size:17px"), value = 0),
-    radioButtons("vas", label = h2("VAS (Value Added Service)",  style="font-size:17px"),
+    )),
+    numericInput("package_validity", label = h2("Package Validity",  style="font-size:25px"), value = 0),
+    div(style="font-size:17px",radioButtons("vas", label = h2("VAS (Value Added Service)",  style="font-size:25px"),
                  choices = list("Yes" , "No" ), 
-    ),
-    radioButtons("tvas", label = h2("Type of VAS",  style="font-size:17px"),
+    )),
+    div(style="font-size:17px",radioButtons("tvas", label = h2("Type of VAS",  style="font-size:25px"),
                  choices = list("VAS" , "Yes", "No"), 
-    ),
-    selectInput("pbc", label = h2("Package Business Category",  style="font-size:17px"), 
+    )),
+    selectInput("pbc", label = h2("Package Business Category",  style="font-size:25px"), 
                 choices = list("BB" , "CLM" , "Corporate" , "International" , "My Special Plan", "MySmartVALUE",
                                "Paket Video Harian", "PUAS Plan", "QOS", "Service Plan", "Simas Plan", "Switch", "VAS", "Voice"), 
     ),
-    selectInput("category_business", label = h2("Category Business",  style="font-size:17px"), 
+    selectInput("category_business", label = h2("Category Business",  style="font-size:25px"), 
                 choices = list("Validity + quota", "Roaming" , "VAS" , "Unlimited" , "Voice", "Sms",
                                "Bonus/promotion"), 
     ),
-    selectInput("SOP", label = h2("SOP (Scheme of Package)",  style="font-size:17px"), 
+    selectInput("SOP", label = h2("SOP (Scheme of Package)",  style="font-size:25px"), 
                 choices = list("1" , "2" , "3" , "4" , "5", "6")
     ),
     submitButton("Check"),
@@ -64,8 +64,8 @@ ui <- dashboardPage(
         ))),
     
     fluidRow(
-      box(h3("Smartfren Package"),br(), status = "primary", width = 15 ,
-          uiOutput('datafung_SF', style="font-size:17px"))
+      box(h3("Smartfren Package"),br(), status = "primary", width = 15,
+          strong(uiOutput('datafung_SF', style="font-size:17px")))
     ),
     
     fluidRow(
@@ -91,7 +91,7 @@ server <- function(input, output) {
   })
   
   datamatch_SF <- reactive({
-    #SF <- read.csv(file = 'SF.csv', header = T, sep=";")
+    SF <- read.csv(file = 'SF.csv', header = T, sep=";")
     return(list(SF = SF))
   })
   
@@ -119,7 +119,7 @@ server <- function(input, output) {
   })
   
   datasetInput <- reactive({
-    #OC <- read.csv(file = 'OC.csv', header = T, sep=";")
+    OC <- read.csv(file = 'OC.csv', header = T, sep=";")
     OC_1 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Validity + quota")%>% select(c(Operator, Package.Name.Purchase,Package.customer.type, Package.Price, Package.Type.1, Package.Type.2,Package.Validity, Value.added.Service.VAS.., Category.Business, SOP))
     OC_2 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Roaming")%>% select(c(Operator, Package.Name.Purchase,Package.customer.type, Package.Price, Package.Type.1, Package.Type.2,Package.Validity, Value.added.Service.VAS.., Category.Business, SOP))
     OC_3 <- OC %>% filter(Package.Price <=20000 & Category.Business =="VAS")%>% select(c(Operator, Package.Name.Purchase,Package.customer.type, Package.Price, Package.Type.1, Package.Type.2,Package.Validity, Value.added.Service.VAS.., Category.Business, SOP))
