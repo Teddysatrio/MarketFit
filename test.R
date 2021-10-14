@@ -11,6 +11,7 @@ ui <- dashboardPage(
   dashboardSidebar(disable = TRUE),
   dashboardBody(
     
+<<<<<<< HEAD
     div(style = 'overflow-x: scroll', sidebarPanel(width = 3,
     tags$h3("Input Detail New Package:", style="font-size:30px; font-style:bold; color:black"),
     textInput("package_name_detail", label = h3("Package Name :", style="font-size:17px"), ""),
@@ -74,6 +75,70 @@ ui <- dashboardPage(
     #plotOutput("bar",height = 500)
     
   )))
+=======
+    div(style = 'overflow-x: scroll', sidebarPanel(width = 4,
+                                                   tags$h3("Input Detail New Package:", style="font-size:30px; font-style:bold; color:black"),
+                                                   textInput("package_name_detail", label = h3("Package Name :", style="font-size:25px"), ""),
+                                                   div(style="font-size:17px", radioButtons("status", label = h2("Status",  style="font-size:25px"),
+                                                                                            choices = list("Active", "Not Active" ) 
+                                                   )),
+                                                   selectInput("pc", label = h2("Package Category",  style="font-size:25px"), 
+                                                               choices = list("Prepaid" , "Postpaid", "Both"), 
+                                                   ),
+                                                   #dateInput("date", label = h3("Launch Date")),
+                                                   div(style="font-size:17px",radioButtons("pas", label = h2("Package Activity Status",  style="font-size:25px"),
+                                                                                           choices = list("Yes" , "No"), 
+                                                   )),
+                                                   numericInput("package_price", label = h2("Package Price",  style="font-size:25px"), value = 0),
+                                                   div(style="font-size:17px",radioButtons("pt1", label = h2("Package Type 1 (with per day data limit till validity)",  style="font-size:25px"),
+                                                                                           choices = list("Yes" , "No" ), 
+                                                   )),
+                                                   div(style="font-size:17px",radioButtons("pt2", label = h2("Package Type 2 (package with unlimited usage data per day)",  style="font-size:25px"),
+                                                                                           choices = list("Yes" , "No" ), 
+                                                   )),
+                                                   numericInput("package_validity", label = h2("Package Validity",  style="font-size:25px"), value = 0),
+                                                   div(style="font-size:17px",radioButtons("vas", label = h2("VAS (Value Added Service)",  style="font-size:25px"),
+                                                                                           choices = list("Yes" , "No" ), 
+                                                   )),
+                                                   div(style="font-size:17px",radioButtons("tvas", label = h2("Type of VAS",  style="font-size:25px"),
+                                                                                           choices = list("VAS" , "Yes", "No"), 
+                                                   )),
+                                                   selectInput("pbc", label = h2("Package Business Category",  style="font-size:25px"), 
+                                                               choices = list("BB" , "CLM" , "Corporate" , "International" , "My Special Plan", "MySmartVALUE",
+                                                                              "Paket Video Harian", "PUAS Plan", "QOS", "Service Plan", "Simas Plan", "Switch", "VAS", "Voice"), 
+                                                   ),
+                                                   selectInput("category_business", label = h2("Category Business",  style="font-size:25px"), 
+                                                               choices = list("Validity + quota", "Roaming" , "VAS" , "Unlimited" , "Voice", "Sms",
+                                                                              "Bonus/promotion"), 
+                                                   ),
+                                                   selectInput("SOP", label = h2("SOP (Scheme of Package)",  style="font-size:25px"), 
+                                                               choices = list("1" , "2" , "3" , "4" , "5", "6")
+                                                   ),
+                                                   submitButton("Check"),
+                                                   
+    ),mainPanel(
+      
+      strong(h1("Market Fit Testing", style="font-style:bold; color:black ")),
+      
+      fluidRow(
+        box(h3("Smartfren New Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('result')))
+      ),
+      fluidRow(
+        box(h3("Comparison"), br(), status = "primary", width = 15 ,
+            (strong(uiOutput('datafungsi', style="font-size:17px"))
+            ))),
+      
+      fluidRow(
+        box(h3("Smartfren Package"),br(), status = "primary", width = 15,
+            strong(uiOutput('datafung_SF', style="font-size:17px")))
+      ),
+      
+      fluidRow(
+        box(h3("Competitor Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('table')))
+      )
+      
+    )))
+>>>>>>> 6d04fc48365453d506e78ef9222715d42199915e
 )
 
 server <- function(input, output) {
@@ -90,7 +155,7 @@ server <- function(input, output) {
   output$result <- DT::renderDataTable({
     DT::datatable(Data()$df)
   })
-  
+#a
   datamatch_SF <- reactive({
     SF <- read.csv(file = 'SF.csv', header = T, sep=";")
     return(list(SF = SF))
@@ -370,6 +435,7 @@ server <- function(input, output) {
     DT::datatable(datamatch()$b)
   })
   
+<<<<<<< HEAD
  # output$bar <- renderPlot({
     
  #   color <- c("blue", "red","yellow", "green", "pink")
@@ -385,6 +451,8 @@ server <- function(input, output) {
  #  )
  #})
   
+=======
+>>>>>>> 6d04fc48365453d506e78ef9222715d42199915e
   datafungsi <- reactive({
     if(#dim(b)[1]==0 #using dimension
       length(datamatch()$b[,1])==0){#using length
@@ -448,5 +516,4 @@ server <- function(input, output) {
   })
 }
 
-#maybe kasih bar chart tentang count package per competitor
 shinyApp(ui, server)
