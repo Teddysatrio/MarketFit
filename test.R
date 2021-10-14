@@ -56,7 +56,7 @@ ui <- dashboardPage(
     strong(h1("Market Fit Testing", style="font-style:bold; color:black ")),
     
     fluidRow(
-      box(h3("Smartfren New Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('result')))
+      box(h3("Smartfren New Package"),width = 15,status = "primary" ,div(style = 'overflow-x: scroll', DT::dataTableOutput('result')))
       ),
     fluidRow(
     box(h3("Comparison"), br(), status = "primary", width = 15 ,
@@ -69,9 +69,9 @@ ui <- dashboardPage(
     )),
     
     fluidRow(
-      box(h3("Competitor Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('table')))
+      box(h3("Competitor Package"),status = "primary",width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('table')))
     ),
-    plotOutput("bar",height = 500)
+    #plotOutput("bar",height = 500)
     
   )))
 )
@@ -110,9 +110,9 @@ server <- function(input, output) {
       }
     }
     if(("e" %in% d)==T){
-      print("This Package Already Exist")
+      paste("<font color=\"#FF0000\">","This Package Already Exist","</font>")
     }else{
-      print("New Package for Smartfren")
+      paste("<font color=\"#00b300\">","New Package for Smartfren","</font>")
     }
   })
   output$datafung_SF <- renderText({
@@ -369,20 +369,20 @@ server <- function(input, output) {
     DT::datatable(datamatch()$b)
   })
   
-  output$bar <- renderPlot({
+ # output$bar <- renderPlot({
     
-    color <- c("blue", "red","yellow", "green", "pink")
+ #   color <- c("blue", "red","yellow", "green", "pink")
     
-    our_data <- datamatch()$b
+ #   our_data <- datamatch()$b
     
-    barplot(height=count(datamatch()$b,datamatch()$b$Operator), names=datamatch()$b$Operator, 
-            col=color,
-            xlab="Operator", 
-            ylab="Values", 
-            main="My title", 
-            ylim=c(0,20)
-    )
-  })
+ #   barplot(height=count(datamatch()$b,datamatch()$b$Operator), names=datamatch()$b$Operator, 
+ #           col=color,
+ #            xlab="Operator", 
+ #            ylab="Values", 
+ #          main="My title", 
+ #          ylim=c(0,20)
+ #  )
+ #})
   
   datafungsi <- reactive({
     if(#dim(b)[1]==0 #using dimension
