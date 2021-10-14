@@ -64,13 +64,14 @@ ui <- dashboardPage(
         ))),
     
     fluidRow(
-      box(h3("Smartfren Package"),br(), status = "primary", width = 15 ,
-          uiOutput('datafung_SF', style="font-size:17px"))
-    ),
+      box(h3("Smartfren Package"),br(), status = "primary", width = 15,
+          (strong(uiOutput('datafung_SF', style="font-size:17px")))
+    )),
     
     fluidRow(
       box(h3("Competitor Package"),width = 15 ,div(style = 'overflow-x: scroll', DT::dataTableOutput('table')))
-    )
+    ),
+    plotOutput("bar",height = 500)
     
   )))
 )
@@ -91,7 +92,7 @@ server <- function(input, output) {
   })
   
   datamatch_SF <- reactive({
-    #SF <- read.csv(file = 'SF.csv', header = T, sep=";")
+    SF <- read.csv(file = 'SF.csv', header = T, sep=";")
     return(list(SF = SF))
   })
   
@@ -119,7 +120,7 @@ server <- function(input, output) {
   })
   
   datasetInput <- reactive({
-    #OC <- read.csv(file = 'OC.csv', header = T, sep=";")
+    OC <- read.csv(file = 'OC.csv', header = T, sep=";")
     OC_1 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Validity + quota")%>% select(c(Operator, Package.Name.Purchase,Package.customer.type, Package.Price, Package.Type.1, Package.Type.2,Package.Validity, Value.added.Service.VAS.., Category.Business, SOP))
     OC_2 <- OC %>% filter(Package.Price <=20000 & Category.Business =="Roaming")%>% select(c(Operator, Package.Name.Purchase,Package.customer.type, Package.Price, Package.Type.1, Package.Type.2,Package.Validity, Value.added.Service.VAS.., Category.Business, SOP))
     OC_3 <- OC %>% filter(Package.Price <=20000 & Category.Business =="VAS")%>% select(c(Operator, Package.Name.Purchase,Package.customer.type, Package.Price, Package.Type.1, Package.Type.2,Package.Validity, Value.added.Service.VAS.., Category.Business, SOP))
@@ -368,6 +369,21 @@ server <- function(input, output) {
     DT::datatable(datamatch()$b)
   })
   
+  output$bar <- renderPlot({
+    
+    color <- c("blue", "red","yellow", "green", "pink")
+    
+    our_data <- datamatch()$b
+    
+    barplot(height=count(datamatch()$b,datamatch()$b$Operator), names=datamatch()$b$Operator, 
+            col=color,
+            xlab="Operator", 
+            ylab="Values", 
+            main="My title", 
+            ylim=c(0,20)
+    )
+  })
+  
   datafungsi <- reactive({
     if(#dim(b)[1]==0 #using dimension
       length(datamatch()$b[,1])==0){#using length
@@ -431,4 +447,5 @@ server <- function(input, output) {
   })
 }
 
+#maybe kasih bar chart tentang count package per competitor
 shinyApp(ui, server)
