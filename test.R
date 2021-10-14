@@ -90,7 +90,7 @@ server <- function(input, output) {
   output$result <- DT::renderDataTable({
     DT::datatable(Data()$df)
   })
-  
+#a
   datamatch_SF <- reactive({
     SF <- read.csv(file = 'SF.csv', header = T, sep=";")
     return(list(SF = SF))
