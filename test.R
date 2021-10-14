@@ -110,6 +110,7 @@ server <- function(input, output) {
       }
     }
     if(("e" %in% d)==T){
+      #change font color in different condition
       paste("<font color=\"#FF0000\">","This Package Already Exist","</font>")
     }else{
       paste("<font color=\"#00b300\">","New Package for Smartfren","</font>")
